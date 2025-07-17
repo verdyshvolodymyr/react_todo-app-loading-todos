@@ -39,12 +39,12 @@ export const App: React.FC = () => {
   }
 
   const sortedUserTodo = userTodo.filter(todo => {
-    if (sortTodo === 'all') {
-      return true;
-    }
-
     if (sortTodo === 'active') {
       return todo.completed === false;
+    }
+
+    if (sortTodo === 'completed') {
+      return todo.completed === true;
     }
 
     return true;

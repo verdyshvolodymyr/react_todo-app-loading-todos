@@ -32,6 +32,11 @@ export const TodoList = ({ sortedUserTodo }: Props) => {
             <button type="button" className="todo__remove" data-cy="TodoDelete">
               ×
             </button>
+
+            <div data-cy="TodoLoader" className="modal overlay">
+              <div className="modal-background has-background-white-ter" />
+              <div className="loader" />
+            </div>
           </div>
         );
       })}

@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Todo } from '../types/Todo';
 import { Sort } from '../types/Sort';
+import cn from 'classnames';
 
 type Props = {
   sort: (value: Sort) => void;
@@ -8,36 +9,62 @@ type Props = {
 };
 
 export const Footer: React.FC<Props> = ({ sort, userTodo }) => {
+  const [selectedAll, setSelectedAll] = useState(true);
+  const [selectedActive, setSelectedActive] = useState(false);
+  const [selectedComplited, setSelectedComplited] = useState(false);
+  let itemsLeft = 0;
+
+  userTodo.map(item => {
+    if (!item.completed) {
+      itemsLeft++;
+    }
+  });
+
   return (
     <footer className="todoapp__footer" data-cy="Footer">
       <span className="todo-count" data-cy="TodosCounter">
-        {userTodo.length} items left
+        {itemsLeft} items left
       </span>
 
       <nav className="filter" data-cy="Filter">
         <a
           href="#/"
-          className="filter__link selected"
+          className={cn('filter__link', { selected: selectedAll })}
           data-cy="FilterLinkAll"
-          onClick={() => sort('all')}
+          onClick={() => {
+            sort('all');
+            setSelectedAll(true);
+            setSelectedActive(false);
+            setSelectedComplited(false);
+          }}
         >
           All
         </a>
 
         <a
           href="#/active"
-          className="filter__link"
+          className={cn('filter__link', { selected: selectedActive })}
           data-cy="FilterLinkActive"
-          onClick={() => sort('active')}
+          onClick={() => {
+            sort('active');
+            setSelectedAll(false);
+            setSelectedActive(true);
+            setSelectedComplited(false);
+          }}
         >
           Active
         </a>
 
         <a
           href="#/completed"
-          className="filter__link"
+          className={cn('filter__link', { selected: selectedComplited })}
           data-cy="FilterLinkCompleted"
-          onClick={() => sort('completed')}
+          onClick={() => {
+            sort('completed');
+            setSelectedAll(false);
+            setSelectedActive(false);
+            setSelectedComplited(true);
+          }}
         >
           Completed
         </a>
